@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug ProxyServer",
+            "request": "launch",
+            "mainClass": "Proxy.ProxyServer",
+            "projectName": "JavaProxy_dd345f14",
+            "cwd": "${workspaceFolder}/",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "preLaunchTask": "build",
+            "args": "8080"
+        }
+    ]
+}
