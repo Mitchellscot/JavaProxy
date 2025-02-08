@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.security.SecureRandom;
 import java.util.Map;
 
-// RequestHandler is a thread that processes requests of one client connection
 public class RequestHandler extends Thread {
 
 	Socket clientSocket;
@@ -23,7 +22,7 @@ public class RequestHandler extends Thread {
 		this.server = server;
 
 		try {
-			clientSocket.setSoTimeout(5000); // Increase timeout to 5 seconds
+			clientSocket.setSoTimeout(50000); // Increase timeout for debugging
 			inFromClient = clientSocket.getInputStream();
 			outToClient = clientSocket.getOutputStream();
 		} catch (Exception e) {
@@ -42,7 +41,7 @@ public class RequestHandler extends Thread {
 
 			String requestString = new String(request, 0, bytesRead);
 			if (!requestString.startsWith("GET")) {
-				return; // Only process GET requests
+				return;
 			}
 
 			String[] requestParts = requestString.split(" ");
@@ -54,7 +53,6 @@ public class RequestHandler extends Thread {
 			String clientIP = clientSocket.getInetAddress().getHostAddress();
 			server.writeLog("Received GET request for URL: " + url + " from " + clientIP);
 
-			// Parse headers
 			String[] lines = requestString.split("\r\n");
 			boolean connectionKeepAlive = false;
 			for (String line : lines) {

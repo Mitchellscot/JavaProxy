@@ -13,8 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ProxyServer {
 
-	// Cache is a Map: the key is the URL and the value is the file name of the file
-	// that stores the cached content
 	Map<String, String> cache;
 
 	ServerSocket proxySocket;
@@ -22,27 +20,30 @@ public class ProxyServer {
 	String logFileName = "proxy.log";
 
 	public static void main(String[] args) {
-		new ProxyServer().startServer(Integer.parseInt(args[0]));
+		int port;
+		try {
+			port = Integer.parseInt(args[0]);
+		} catch (NumberFormatException e) {
+			port = 8080;
+		}
+		new ProxyServer().startServer(port);
 	}
 
 	void startServer(int proxyPort) {
 
-		cache = new ConcurrentHashMap<>();
+		cache = new ConcurrentHashMap<>(Integer.MAX_VALUE);
 
-		// Create the directory to store cached files.
 		File cacheDir = new File("cached");
 		if (!cacheDir.exists() || (cacheDir.exists() && !cacheDir.isDirectory())) {
 			cacheDir.mkdirs();
 		}
 
 		try {
-			// Create a serverSocket to listen on the port (proxyPort)
 			proxySocket = new ServerSocket(proxyPort);
 			System.out.println("Proxy server started on port " + proxyPort);
 			writeLog("Proxy server started on port " + proxyPort);
 
 			while (true) {
-				// Create a thread (RequestHandler) for each new client connection
 				Socket clientSocket = proxySocket.accept();
 				writeLog("Accepted connection from " + clientSocket.getInetAddress().getHostAddress());
 				Thread thread = new RequestHandler(clientSocket, this.cache, this);
