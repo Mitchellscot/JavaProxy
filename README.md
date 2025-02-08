@@ -1,5 +1,7 @@
 This proxy is designed to be run on a computer and wired up to a web browser. When a GET request is made from the browser, the request is forwarded to the program, which then handles the request. All other requests (POST, PUT, etc.) are ignored. The program then forwards the request to the destination, retrieves that request, then writes it to a file, and stores the filename and the server address in memory. When another request is made from the same URL, the program will check the in memory cache for that URL, and if it is found, it will forward the cached version of that webpage to the browser.
 
+[Video of the proxy in action can be viewed here](https://drive.google.com/file/d/1RylEp1KnzFUZqMwtU7_pv0GDekDLrQKs/view?usp=sharing)
+
 # VS Code Support
 
 files are included to support debugging through visual studio code. Simply open the repository in VS Code and make sure you have the Java Platform Extension for Visual Studio Code installed. This will allow you to set break points to inspect variables and debug the application.
